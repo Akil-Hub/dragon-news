@@ -1,0 +1,19 @@
+import React from 'react'
+import { FaGithub, FaGoogle } from 'react-icons/fa'
+
+const RightSideBar = () => {
+  return (
+      <section className="flex flex-col gap-3">
+          <h2 className='text-2xl font-semibold'>Login With</h2>
+          <div className="flex btn btn-outline gap-2 items-center px-3 py-2 text-blue-500 font-bold rounded-lg">
+            <FaGoogle/> <p>Login With Google</p>
+          </div>
+          <div className="flex btn btn-outline gap-2 items-center px-3 py-2 text-gray-950-500 font-bold rounded-lg">
+            <FaGithub/> <p>Login With Google</p>
+          </div>
+         
+        </section>
+  )
+}
+
+export default RightSideBar
