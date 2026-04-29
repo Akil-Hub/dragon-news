@@ -1,5 +1,9 @@
 @import "tailwindcss";
+@import "@heroui/styles"; 
 @plugin "daisyui";
+
+
+
 @layer components{
     .wrapper{
         @apply max-w-7xl mx-auto px-3 md:px-4 lg:px-8
