@@ -2,13 +2,13 @@
 import React from 'react'
 import { Check } from "@gravity-ui/icons";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
-import { useRouter } from 'next/navigation'; // ✅ useRouter instead of redirect
-import { useForm, Controller } from 'react-hook-form'; // ✅ import Controller
+import { useRouter } from 'next/navigation'; 
+import { useForm, Controller } from 'react-hook-form'; 
 import { authClient } from '@/lib/auth-client';
 
 const LoginPage = () => {
-  const router = useRouter(); // ✅ client-side navigation
-  const { control, handleSubmit, formState: { errors } } = useForm(); // ✅ control, not register
+  const router = useRouter(); 
+  const { control, handleSubmit, formState: { errors } } = useForm();
 
   const handleLoginFunc = async (data) => {
     const { email, password } = data;
@@ -22,13 +22,13 @@ const LoginPage = () => {
 
     if (error) {
       const message = error?.message || error?.statusText || "Login failed. Please try again.";
-      alert(message); // replace with toast if you have one
+      alert(message); 
       return;
     }
 
     if (res) {
       alert("Login successful! Redirecting to homepage...");
-      router.push('/'); // ✅ programmatic navigation
+      router.push('/'); 
     }
   };
 
@@ -38,7 +38,7 @@ const LoginPage = () => {
         className="flex border-2 rounded-lg border-gray-300 w-96 flex-col gap-4 wrapper py-5"
         onSubmit={handleSubmit(handleLoginFunc)}
       >
-        {/* ✅ Controller instead of register spread */}
+      
         <Controller
           name="email"
           control={control}
@@ -75,7 +75,7 @@ const LoginPage = () => {
           </Button>
           <div className="flex gap-2 items-center text-xs">
             <p>Don't have an account?</p>
-            <Button type="button" variant="secondary" onClick={() => router.push('/register')}> {/* ✅ type="button" */}
+            <Button type="button" variant="secondary" onClick={() => router.push('/register')}> 
               Register!
             </Button>
           </div>

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { Check } from "@gravity-ui/icons";
 import {
@@ -10,12 +10,16 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import { useForm, Controller } from "react-hook-form"; // ✅ import Controller
-
+import { useForm, Controller } from "react-hook-form";
 const RegisterPage = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm(); // ✅ use control, not register
+  const router = useRouter()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const handleRegisterFunc = async (data) => {
     const { name, photoUrl, email, password } = data;
@@ -25,10 +29,18 @@ const RegisterPage = () => {
       email,
       password,
       image: photoUrl,
-      callbackURL: '/',
+      callbackURL: "/",
+    },{
+      onSuccess:()=>{
+        router.push('/')
+      }
     });
 
-console.error("Registration error:", JSON.stringify(error), error?.message, error?.status, error?.code);    if (res) alert("Registration successful! Please check your email to verify your account.");
+   
+    if (res)
+      alert(
+        "Registration successful! Please check your email to verify your account.",
+      );
   };
 
   return (
@@ -43,10 +55,17 @@ console.error("Registration error:", JSON.stringify(error), error?.message, erro
           control={control}
           rules={{ required: "Name is required" }}
           render={({ field }) => (
-            <TextField isRequired type="text" value={field.value ?? ""} onChange={field.onChange}>
+            <TextField
+              isRequired
+              type="text"
+              value={field.value ?? ""}
+              onChange={field.onChange}
+            >
               <Label>Name</Label>
               <Input placeholder="Enter your name" />
-              {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
+              {errors.name && (
+                <p className="text-red-500 text-xs">{errors.name.message}</p>
+              )}
               <FieldError />
             </TextField>
           )}
@@ -57,10 +76,19 @@ console.error("Registration error:", JSON.stringify(error), error?.message, erro
           control={control}
           rules={{ required: "Photo URL is required" }}
           render={({ field }) => (
-            <TextField isRequired type="text" value={field.value ?? ""} onChange={field.onChange}>
+            <TextField
+              isRequired
+              type="text"
+              value={field.value ?? ""}
+              onChange={field.onChange}
+            >
               <Label>Photo URL</Label>
               <Input placeholder="Enter your photo URL" />
-              {errors.photoUrl && <p className="text-red-500 text-xs">{errors.photoUrl.message}</p>}
+              {errors.photoUrl && (
+                <p className="text-red-500 text-xs">
+                  {errors.photoUrl.message}
+                </p>
+              )}
               <FieldError />
             </TextField>
           )}
@@ -69,12 +97,19 @@ console.error("Registration error:", JSON.stringify(error), error?.message, erro
         <Controller
           name="email"
           control={control}
-          rules={{ required: "Email is required" }} // ✅ fixed copy-paste bug ("Name is required")
+          rules={{ required: "Email is required" }}
           render={({ field }) => (
-            <TextField isRequired type="email" value={field.value ?? ""} onChange={field.onChange}>
+            <TextField
+              isRequired
+              type="email"
+              value={field.value ?? ""}
+              onChange={field.onChange}
+            >
               <Label>Email</Label>
               <Input placeholder="john@example.com" />
-              {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-red-500 text-xs">{errors.email.message}</p>
+              )}
               <FieldError />
             </TextField>
           )}
@@ -85,11 +120,23 @@ console.error("Registration error:", JSON.stringify(error), error?.message, erro
           control={control}
           rules={{ required: "Password is required" }}
           render={({ field }) => (
-            <TextField isRequired minLength={8} type="password" value={field.value ?? ""} onChange={field.onChange}>
+            <TextField
+              isRequired
+              minLength={8}
+              type="password"
+              value={field.value ?? ""}
+              onChange={field.onChange}
+            >
               <Label>Password</Label>
               <Input placeholder="Enter your password" />
-              {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
-              <Description>Must be at least 8 characters with 1 uppercase and 1 number</Description>
+              {errors.password && (
+                <p className="text-red-500 text-xs">
+                  {errors.password.message}
+                </p>
+              )}
+              <Description>
+                Must be at least 8 characters with 1 uppercase and 1 number
+              </Description>
               <FieldError />
             </TextField>
           )}
@@ -102,7 +149,11 @@ console.error("Registration error:", JSON.stringify(error), error?.message, erro
           </Button>
           <div className="flex gap-2 items-center text-xs">
             <p>Already have an account?</p>
-            <Button type="button" variant="secondary" onClick={() => redirect("/login")}> {/* ✅ type="button" not "reset" */}
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => redirect("/login")}
+            >
               Login
             </Button>
           </div>
