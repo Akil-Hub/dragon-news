@@ -1,9 +1,24 @@
+
+'use client'
+
+
 import Link from "next/link";
 import React from "react";
 import userAvatar from "@/assets/user.png";
 import Image from "next/image";
 import MenuLinks from "@/components/shared/MenuLinks";
+import { authClient } from "@/lib/auth-client";
+import { Button } from "@heroui/react";
+
+
 const Navbar = () => {
+
+
+  const { data: session, isPending } = authClient.useSession()
+
+  console.log(session)
+  const user = session?.user
+
   return (
     <article className="flex justify-between wrapper py-4">
       <p></p>
@@ -20,12 +35,28 @@ const Navbar = () => {
           </MenuLinks>
         </li>
       </ul>
-      <div className="flex gap-3 items-center">
-        <Image src={userAvatar} alt="user userAvatar" height={50} width={50} />
-        <button className="btn bg-purple-500 text-white">
-          <Link href={"/login"}>Login</Link>
-        </button>
-      </div>
+
+      {
+        isPending ? (
+          <p>Loading...</p>
+        ) : user ? (
+          <div className="flex gap-3 items-center">
+            <h3 className="font-bold"> Hello, {user?.name}</h3>
+
+            <Image src={user?.image || userAvatar} alt="user userAvatar" height={50} width={50} className="rounded-full" />
+
+            <button className="btn bg-purple-500 text-white">
+              <Link href={"/login"}>Log Out</Link>
+            </button>
+          </div>
+        ) : (
+
+
+          <button className="btn bg-purple-500 text-white">
+            <Link href={"/login"}>Login</Link>
+          </button>
+        )
+      }
     </article>
   );
 };
